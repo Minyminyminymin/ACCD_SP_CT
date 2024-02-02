@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #main {
+            font-size: 5px; /* Set your desired font size in pixels */
+        }
+
+        h3 {
+            font-size: 0em; /* Set your desired font size using em units */
+        }
+
+        p {
+            font-size: 6em; /* Set your desired font size using em units */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <button id="startButton">START!</button>
+    </header>
+    <main id="main"></main>
+
+    <script>
+        let startBTN = document.getElementById("startButton");
+        let mainELEM = document.getElementById("main");
+        let dogURL = "https://api.thedogapi.com/v1/images/search?limit=1&api_key=live_FbJiRE07BFOn6pdKyPNjPsunZBwQQcT3JID6s1MmACb0DrTiEVsomB2xLZ3hSfKi";
+        let newsURL = "https://dogapi.dog/api/v1/facts?number=1&raw=true";
+        let eventURL = "https://app.ticketmaster.com/discovery/v2/events/G5diZfkn0B-bh.json?apikey=07SgF9aCMxWo5fDeVAtuUwy6Ws6HkGIG";
+
+        let fetchDogAndNewsData = async () => {
+            console.info("CLICKED!");
+
+            try {
+                // Fetch dog data
+                const dogResponse = await fetch(dogURL);
+                const dogData = await dogResponse.json();
+
+                // Fetch news data
+                const newsResponse = await fetch(newsURL);
+
+                // Separate fetching and processing news data
+                const newsText = await newsResponse.text();
+
+                // Fetch event data
+                const eventResponse = await fetch(eventURL);
+                const eventData = await eventResponse.json();
+
+                // Clear existing content before appending new content
+                mainELEM.innerHTML = "";
+
+                // Append dog data
+                appendDogData(dogData);
+
+                // Append news data
+                appendNewsData(newsText);
+
+                // Append event data
+                appendEventData(eventData);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        let appendDogData = (data) => {
+            let dName = data[0].id;
+            let dImg = data[0].url;
+
+            let nameHeader = document.createElement('h3');
+            nameHeader.innerText = dName;
+            mainELEM.appendChild(nameHeader);
+
+            let imageHolder = document.createElement('img');
+            imageHolder.src = dImg;
+            mainELEM.appendChild(imageHolder);
+        };
+
+        let appendNewsData = (data) => {
+            let newsContainer = document.createElement('div');
+            let articleDiv = document.createElement('div');
+
+            if (data.trim() !== "") {
+                // If it's not an empty string, assume it's dog facts
+                articleDiv.innerHTML = `<p>${data}</p>`;
+            } else {
+                // If it's an empty string, display a message
+                articleDiv.innerHTML = `<p>No dog facts found.</p>`;
+            }
+
+            newsContainer.appendChild(articleDiv);
+            mainELEM.appendChild(newsContainer);
+        };
+        let appendEventData = (data) => {
+    let eventContainer = document.createElement('div');
+    let eventDiv = document.createElement('div');
+
+    if (data._embedded && data._embedded.events && data._embedded.events.length > 0) {
+        const event = data._embedded.events[0];
+        eventDiv.innerHTML = `
+            <h3>${event.name}</h3>
+            <p>Date: ${event.dates.start.localDate}</p>
+            <p>Venue: ${event._embedded.venues[0].name}, ${event._embedded.venues[0].city.name}</p>
+            <p><a href="${event.url}" target="_blank">Event Details</a></p>
+            <p>Description: ${event.info || 'No description available.'}</p>
+        `;
+    } else {
+        eventDiv.innerHTML = `<p>No dog events found.</p>`;
+    }
+
+    eventContainer.appendChild(eventDiv);
+    mainELEM.appendChild(eventContainer);
+};
+
+
+//         let appendEventData = (data) => {
+//     let eventContainer = document.createElement('div');
+//     let eventDiv = document.createElement('div');
+
+//     if (data._embedded && data._embedded.events && data._embedded.events.length > 0) {
+//         const event = data._embedded.events[0];
+//         eventDiv.innerHTML = `
+//             <h3>${event.name}</h3>
+//             <p>Date: ${event.dates.start.localDate}</p>
+//             <p>Venue: ${event._embedded.venues[0].name}, ${event._embedded.venues[0].city.name}</p>
+//             <p><a href="${event.url}" target="_blank">Event Details</a></p>
+//         `;
+//     } else {
+//         eventDiv.innerHTML = `<p>No dog events found.</p>`;
+//     }
+
+//     eventContainer.appendChild(eventDiv);
+//     mainELEM.appendChild(eventContainer);
+// };
+
+        // let appendEventData = (data) => {
+        //     let eventContainer = document.createElement('div');
+        //     let eventDiv = document.createElement('div');
+
+        //     if (data._embedded && data._embedded.events && data._embedded.events.length > 0) {
+        //         const event = data._embedded.events[0];
+        //         eventDiv.innerHTML = `
+        //             <h3>${event.name}</h3>
+        //             <p>${event.dates.start.localDate}</p>
+        //             <p>${event._embedded.venues[0].name}, ${event._embedded.venues[0].city.name}</p>
+        //         `;
+        //     } else {
+        //         eventDiv.innerHTML = `<p>No dog events found.</p>`;
+        //     }
+
+        //     eventContainer.appendChild(eventDiv);
+        //     mainELEM.appendChild(eventContainer);
+        // };
+
+        startBTN.addEventListener("click", fetchDogAndNewsData);
+    </script>
+</body>
+</html>
