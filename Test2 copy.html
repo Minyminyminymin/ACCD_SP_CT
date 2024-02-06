@@ -3,22 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Document</title>
-
-    <style>
-        #main {
-            font-size: 16px; /* Set your desired font size in pixels */
-        }
-    
-        p {
-            font-size: 2em; /* Set your desired font size using em units */
-        }
-    
-        .event-info {
-            font-size: 1.5em; /* Set the font size for event-related information */
-        }
-    </style>
-    
 </head>
 <body>
     <header>
@@ -30,8 +16,11 @@
         let startBTN = document.getElementById("startButton");
         let mainELEM = document.getElementById("main");
         let dogURL = "https://api.thedogapi.com/v1/images/search?limit=1&api_key=live_FbJiRE07BFOn6pdKyPNjPsunZBwQQcT3JID6s1MmACb0DrTiEVsomB2xLZ3hSfKi";
-        let newsURL = "https://dogapi.dog/api/v1/facts?number=1&raw=true";
-        let eventURL = "https://app.ticketmaster.com/discovery/v2/events.json?size=1&keyword=Dogs&apikey=07SgF9aCMxWo5fDeVAtuUwy6Ws6HkGIG";
+        let breedURL = "https://api.thedogapi.com/v1/breeds/";
+        let genderizeURL = "https://api.genderize.io?name="; // Genderize API URL
+        let newsURL = "https://dogapi.dog/api/v2/facts?limit=2";
+
+        let currentBreed = ""; // Variable to store the current breed
 
         let fetchDogAndNewsData = async () => {
             console.info("CLICKED!");
@@ -41,32 +30,55 @@
                 const dogResponse = await fetch(dogURL);
                 const dogData = await dogResponse.json();
 
-                // Fetch news data
-                const newsResponse = await fetch(newsURL);
-                const newsText = await newsResponse.text();
+                // Check if the dog data contains information about breeds
+                if (dogData[0].breeds && dogData[0].breeds.length > 0) {
+                    // Fetch breed data
+                    const breedResponse = await fetch(breedURL + dogData[0].breeds[0].id);
+                    const breedData = await breedResponse.json();
 
-                // Fetch event data
-                const eventResponse = await fetch(eventURL);
-                const eventData = await eventResponse.json();
+                    // Store the current breed in the variable
+                    currentBreed = breedData.name;
 
-                // Clear existing content before appending new content
-                mainELEM.innerHTML = "";
+                    // Display breed name in an alert
+                    alert(`Breed: ${currentBreed}`);
 
-                // Append dog data
-                appendDogData(dogData);
+                    // Use Genderize API to get information based on the breed name
+                    const genderizeResponse = await fetch(genderizeURL + currentBreed);
+                    const genderizeData = await genderizeResponse.json();
 
-                // Append news data
-                appendNewsData(newsText);
+                    // Display genderize data
+                    console.log("Genderize Data:", genderizeData);
 
-                // Append event data
-                appendEventData(eventData);
+                    // Fetch news data
+                    const newsResponse = await fetch("https://dogapi.dog/api/v2/facts?limit=2");
+                    const newsData = await newsResponse.json();
+
+                    // Log the newsData to inspect its structure
+                    console.log("News Data:", newsData);
+
+                    // Clear existing content before appending new content
+                    mainELEM.innerHTML = "";
+
+                    // Append dog data
+                    appendDogData(dogData);
+
+                    // Append genderize data
+                    appendGenderizeData(genderizeData);
+
+                    // Append news data
+                    appendNewsData(newsData);
+                } else {
+                    // Handle the case where the breed information is not available
+                    alert('Click once again!');
+                }
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
 
-        let appendDogData = (data) => {
-            let dImg = data[0].url;
+        // Example function to append dog data
+        let appendDogData = (dogData) => {
+            let dImg = dogData[0].url;
 
             let imageHolder = document.createElement('img');
             imageHolder.src = dImg;
@@ -77,41 +89,69 @@
             mainELEM.appendChild(imageHolder);
         };
 
-        let appendNewsData = (data) => {
-            let newsContainer = document.createElement('div');
-            let articleDiv = document.createElement('div');
+        // Example function to append genderize data
+        let appendGenderizeData = (genderizeData) => {
+            let genderizeContainer = document.createElement('div');
+            let genderizeDiv = document.createElement('div');
 
-            if (data.trim() !== "") {
-                // If it's not an empty string, assume it's dog facts
-                articleDiv.innerHTML = `<p><strong><Fact></strong> ${data}</p>`;
-            } else {
-                // If it's an empty string, display a message
-                articleDiv.innerHTML = `<p>No dog facts found.</p>`;
-            }
+            // Set default gender if null
+            const gender = genderizeData.gender || getRandomGender();
 
-            newsContainer.appendChild(articleDiv);
-            mainELEM.appendChild(newsContainer);
+            // Display genderize data
+            genderizeDiv.innerHTML = `
+                <div class="text-container">
+                  <div class="text-info">
+                    <p class="text-label">Name:</p>
+                    <p class="text-content">${genderizeData.name}</p>
+                  </div>
+                  <div class="text-info">
+                    <p class="text-label">Gender:</p>
+                    <p class="text-content">${gender}</p>
+                  </div>
+                  <div class="text-info">
+                    <p class="text-label">Probability:</p>
+                    <p class="text-content">${getRandomProbability()}</p>
+                  </div>
+                </div>
+            `;
+
+            genderizeContainer.appendChild(genderizeDiv);
+            mainELEM.appendChild(genderizeContainer);
         };
 
-        let appendEventData = (data) => {
-            let eventContainer = document.createElement('div');
-            let eventDiv = document.createElement('div');
+        // Get a random gender (man or woman)
+        const getRandomGender = () => {
+            const genders = ['man', 'woman'];
+            const randomIndex = Math.floor(Math.random() * genders.length);
+            return genders[randomIndex];
+        };
 
-            if (data._embedded && data._embedded.events && data._embedded.events.length > 0) {
-                const event = data._embedded.events[0];
-                eventDiv.innerHTML = `
-                    <h3>${event.name}</h3>
-                    <p class="event-info">Date: ${event.dates.start.localDate}</p>
-                    <p class="event-info">Venue: ${event._embedded.venues[0].name}, ${event._embedded.venues[0].city.name}</p>
-                    <p class="event-info"><a href="${event.url}" target="_blank">Event Details</a></p>
-                    <p class="event-info">Description: ${event.info || 'No description available.'}</p>
-                `;
+        // Get a random probability (1 to 10)
+        const getRandomProbability = () => {
+            return Math.floor(Math.random() * 10) + 1;
+        };
+
+        // Example function to append news data
+        let appendNewsData = (newsData) => {
+            let newsContainer = document.createElement('div');
+            let newsDiv = document.createElement('div');
+
+            // Check if newsData has the expected structure
+            if (newsData.data && Array.isArray(newsData.data) && newsData.data.length > 0) {
+                newsDiv.innerHTML = `
+            <div class="text-info news-info">
+                <p class="text-label news-label">News:</p>
+                <div class="text-container news-content">
+                    <p class="text-content">${newsData.data[0].attributes.body}</p>
+                </div>
+            </div>
+        `;
             } else {
-                eventDiv.innerHTML = `<p class="event-info">No dog events found.</p>`;
+                newsDiv.innerHTML = `<p class="text-content">No news available.</p>`;
             }
 
-            eventContainer.appendChild(eventDiv);
-            mainELEM.appendChild(eventContainer);
+            newsContainer.appendChild(newsDiv);
+            mainELEM.appendChild(newsContainer);
         };
 
         startBTN.addEventListener("click", fetchDogAndNewsData);
