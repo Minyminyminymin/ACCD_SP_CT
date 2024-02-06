@@ -232,7 +232,16 @@ body {
       align-items: center; /* Center align children */
       margin: 10px 0;
   }
-  
-  
-  /* Rest of your CSS styles here */
+  .initial-text {
+    color: #151515;
+    font-family: 'Inter', sans-serif;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    display: none; /* Initially hide the text */
+    text-align: center; /* Center align the text */
+    margin-top: 20px; /* Add margin for spacing */
+}
+
   
