@@ -1,247 +1,247 @@
 body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: #fff; /* White background for the body */
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #fff; /* White background for the body */
+}
+
+#main {
+  display: flex; /* Use flexbox layout */
+  flex-direction: row; /* Arrange children in a row */
+  align-items: flex-start; /* Align items to the start of the cross axis */
+  justify-content: space-between; /* Distribute extra space evenly */
+  width: 80%; /* Adjust width to your preference */
+  max-width: 1000px; /* Maximum width of the main container */
+  margin: 20px; /* Margin around the main container */
+}
+
+.image-placeholder {
+  width: 300px; /* Width for the image placeholder */
+  height: 300px; /* Height for the image placeholder */
+  background-color: #ccc; /* Gray background for the image placeholder */
+  border-radius: 10px; /* Rounded corners for the image placeholder */
+}
+
+.text-container {
+  display: flex; /* Use flexbox layout for text content */
+  flex-direction: column; /* Arrange children in a column */
+  width: 100%; /* Take up remaining space */
+  padding-left: 20px; /* Padding between image and text */
+}
+
+.text-info {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 10px 0; /* Adjusted margin for spacing between text items */
+}
+
+.text-label {
+  color: #636363; /* Change color to match News */
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  margin: 0;
+  width: 100px;
+}
+
+.text-content {
+  color: #636363;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  margin: 0 10px; /* Adjusted margin for spacing between label and content */
+}
+
+/* Add styles for the "News" section */
+.text-info.news-info {
+  margin: 10px 0; /* Adjusted margin for spacing between text items */
+}
+
+.text-label.news-label {
+  color: #636363; /* Change color to match News */
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  margin: 0;
+  width: 100px;
+}
+
+.text-content.news-content {
+  color: #636363;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  margin: 0 10px; /* Adjusted margin for spacing between label and content */
+}
+/* Add styles for the "News" section */
+.news-section {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start; /* Align items to the top */
+  margin: 10px 0; /* Adjusted margin for spacing between text items */
+}
+
+.text-label.news-label {
+  color: #636363; /* Change color to match News */
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  margin: 0;
+  width: 100px;
+}
+
+.text-container.news-content {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px; /* Adjusted margin for spacing between label and content */
+}
+
+.text-info.news-info {
+  margin: 10px 0; /* Adjusted margin for spacing between text items */
+}
+
+#startButton {
+  font-size: 1em;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  border-radius: 20px;
+  background-color: #DE6161;
+  color: white;
+  outline: none;
+  transition: background-color 0.3s ease;
+  align-self: center; /* Align button to the center */
+  margin-top: 20px;
+}
+
+#startButton:hover {
+  background-color: #c24e4e;
+}
+
+@media (max-width: 768px) {
   #main {
-    display: flex; /* Use flexbox layout */
-    flex-direction: row; /* Arrange children in a row */
-    align-items: flex-start; /* Align items to the start of the cross axis */
-    justify-content: space-between; /* Distribute extra space evenly */
-    width: 80%; /* Adjust width to your preference */
-    max-width: 1000px; /* Maximum width of the main container */
-    margin: 20px; /* Margin around the main container */
+    flex-direction: column;
   }
-  
+
   .image-placeholder {
-    width: 300px; /* Width for the image placeholder */
-    height: 300px; /* Height for the image placeholder */
-    background-color: #ccc; /* Gray background for the image placeholder */
-    border-radius: 10px; /* Rounded corners for the image placeholder */
+    margin-bottom: 20px;
   }
-  
+
   .text-container {
-    display: flex; /* Use flexbox layout for text content */
-    flex-direction: column; /* Arrange children in a column */
-    width: 100%; /* Take up remaining space */
-    padding-left: 20px; /* Padding between image and text */
+    padding-left: 0; /* Reset padding for small screens */
   }
-  
-  .text-info {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin: 10px 0; /* Adjusted margin for spacing between text items */
-  }
-  
-  .text-label {
-    color: #636363; /* Change color to match News */
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    margin: 0;
-    width: 100px;
-  }
-  
-  .text-content {
-    color: #636363;
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    margin: 0 10px; /* Adjusted margin for spacing between label and content */
-  }
-  
-  /* Add styles for the "News" section */
-  .text-info.news-info {
-    margin: 10px 0; /* Adjusted margin for spacing between text items */
-  }
-  
-  .text-label.news-label {
-    color: #636363; /* Change color to match News */
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    margin: 0;
-    width: 100px;
-  }
-  
-  .text-content.news-content {
-    color: #636363;
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    margin: 0 10px; /* Adjusted margin for spacing between label and content */
-  }
-  /* Add styles for the "News" section */
-  .news-section {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start; /* Align items to the top */
-    margin: 10px 0; /* Adjusted margin for spacing between text items */
-  }
-  
-  .text-label.news-label {
-    color: #636363; /* Change color to match News */
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    margin: 0;
-    width: 100px;
-  }
-  
-  .text-container.news-content {
-    display: flex;
-    flex-direction: column;
-    margin-left: 10px; /* Adjusted margin for spacing between label and content */
-  }
-  
-  .text-info.news-info {
-    margin: 10px 0; /* Adjusted margin for spacing between text items */
-  }
-  
-  #startButton {
-    font-size: 1em;
-    padding: 10px 20px;
-    cursor: pointer;
-    border: none;
-    border-radius: 20px;
-    background-color: #DE6161;
-    color: white;
-    outline: none;
-    transition: background-color 0.3s ease;
-    align-self: center; /* Align button to the center */
-    margin-top: 20px;
-  }
-  
-  #startButton:hover {
-    background-color: #c24e4e;
-  }
-  
-  @media (max-width: 768px) {
-    #main {
-      flex-direction: column;
-    }
-  
-    .image-placeholder {
-      margin-bottom: 20px;
-    }
-  
-    .text-container {
-      padding-left: 0; /* Reset padding for small screens */
-    }
-  }
-  
-  body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: #fff;
-  }
-  
-  #main {
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #fff;
+}
+
+#main {
+  display: flex;
+  flex-direction: column; /* Change to column layout */
+  align-items: center; /* Center align children */
+  width: 80%;
+  max-width: 1000px;
+  margin: 20px;
+}
+
+.image-placeholder {
+  width: 300px;
+  height: 300px;
+  background-color: #ccc;
+  border-radius: 10px;
+}
+
+.text-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-left: 20px;
+}
+
+.text-info {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.text-label {
+  color: #636363;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  margin: 0;
+  width: 100px;
+}
+
+.text-content {
+  color: #636363;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  margin: 0 10px;
+}
+
+.text-info.news-info {
+  margin: 10px 0;
+}
+
+.text-label.news-label {
+  color: #636363;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  margin: 0;
+  width: 100px;
+}
+
+.text-content.news-content {
+  color: #636363;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  margin: 0 10px;
+}
+
+/* Add styles for the "News" section */
+.news-section {
     display: flex;
     flex-direction: column; /* Change to column layout */
     align-items: center; /* Center align children */
-    width: 80%;
-    max-width: 1000px;
-    margin: 20px;
-  }
-  
-  .image-placeholder {
-    width: 300px;
-    height: 300px;
-    background-color: #ccc;
-    border-radius: 10px;
-  }
-  
-  .text-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding-left: 20px;
-  }
-  
-  .text-info {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
     margin: 10px 0;
-  }
-  
-  .text-label {
-    color: #636363;
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    margin: 0;
-    width: 100px;
-  }
-  
-  .text-content {
-    color: #636363;
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    margin: 0 10px;
-  }
-  
-  .text-info.news-info {
-    margin: 10px 0;
-  }
-  
-  .text-label.news-label {
-    color: #636363;
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    margin: 0;
-    width: 100px;
-  }
-  
-  .text-content.news-content {
-    color: #636363;
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    margin: 0 10px;
-  }
-  
-  /* Add styles for the "News" section */
-  .news-section {
-      display: flex;
-      flex-direction: column; /* Change to column layout */
-      align-items: center; /* Center align children */
-      margin: 10px 0;
-  }
-  .initial-text {
-    color: #151515;
-    font-family: 'Inter', sans-serif;
-    font-size: 48px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    display: none; /* Initially hide the text */
-    text-align: center; /* Center align the text */
-    margin-top: 20px; /* Add margin for spacing */
 }
 
-  
+.initial-text {
+  color: #151515;
+  font-family: 'Inter', sans-serif;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  display: none; /* Initially hide the text */
+  text-align: center; /* Center align the text */
+  margin-top: 20px; /* Add margin for spacing */
+}
+
